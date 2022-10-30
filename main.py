@@ -76,6 +76,35 @@ def create_product(conn, product):
     except Error as e:
         print(e)
 
+def create_products(conn):
+    create_product(conn, ('Кефир', 17.80, 7))  # 1
+    create_product(conn, ('Мороженое: Бахрома', 60.53, 30))  # 2
+    create_product(conn, ('Пепси 2л', 135.00, 4))  # 3
+    create_product(conn, ('NITRO', 62.40, 12))  # 4
+    create_product(conn, ('Контик', 34.90, 5))  # 5
+    create_product(conn, ('Жидкое мыло', 67.89, 2))  # 6
+    create_product(conn, ('Мыло детское', 108.60, 7))  # 7
+    create_product(conn, ('Кириешки Flint', 26.12, 20))  # 8
+    create_product(conn, ('Семечки Джин', 59.99, 6))  # 9
+    create_product(conn, ('Гамбургер "Тойбосс"', 105.00, 3))  # 10
+    create_product(conn, ('Alpen Gold', 114.59, 4))  # 11
+    create_product(conn, ('Asu!', 33.40, 8))  # 12
+    create_product(conn, ('Моющее средство', 73.70, 4))  # 13
+    create_product(conn, ('Порошок', 250.00, 3))  # 14
+    create_product(conn, ('Подсолнечное Масло', 240.00, 5))  # 15
+
+def search_by_word(conn, word):
+    try:
+        sql = '''SELECT * FROM products WHERE product_title LIKE ?'''
+        cursor = conn.cursor()
+        cursor.execute(sql, ('%'+word+'%',))
+
+        rows = cursor.fetchall()
+        for row in rows:
+            print(row)
+    except Error as e:
+        print(e)
+
 
 sql_create_product_table = '''
 CREATE TABLE products (
@@ -96,7 +125,9 @@ if connection is not None:
     # select_all_products(connection)
     # select_products_by_price(connection, 100, 5)
     # update_product(connection, (30.50, 15, 2))
-    delete_product(connection, 2)
+    # delete_product(connection, 2)
+    # create_products(connection)
+    search_by_word(connection, 'мыло')
 
     connection.close()
     print('Successfully')
